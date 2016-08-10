@@ -27,6 +27,7 @@
   // 2. changing to jquery format, notice we don't define the XHR class anymore
   var $btn = $('#request');
   var $bio = $('#bio');
+  var $loader = $('.loader');
 
   $btn.on('click', function(e) {
     e.preventDefault();
@@ -41,10 +42,11 @@
       dataType: 'html',
       // show the loader before making the request
       beforeSend: function() {
-//         $loader.show();
+        $loader.show();
       }
     }).done(successFunction)
-      .fail(failFunction);
+      .fail(failFunction)
+      .always(alwaysFunction);
   });
 
     function successFunction(data) {
@@ -58,9 +60,16 @@
     }
   }
 
-
   function failFunction(request, textStatus, errorThrown){
     $bio.text('An error occurred during your request: ' +  request.status + ' ' + textStatus + ' ' + errorThrown);
+  }
+
+  // always function
+  function alwaysFunction() {
+    // hide the loader
+    console.log('lala')
+    $loader.hide();
+    // $body.css('overflow', 'hidden');
   }
 
 })(jQuery);
