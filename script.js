@@ -21,27 +21,23 @@
 //   }
 // }
 
-$(function(){
+(function($) {
+
 
   // 2. changing to jquery format, notice we don't define the XHR class anymore
   var $btn = $('#request');
   var $bio = $('#bio');
 
-  var yoda_url = 'https://yoda.p.mashape.com/yoda?sentence=You+will+learn+how+to+speak+like+me+someday.++Oh+wait.';
-
-
-
   $btn.on('click', function(e) {
     e.preventDefault();
 
-    var sentance = $('#yoda').
+    var server_url = 'https://yoda.p.mashape.com/yoda';
+    var sentence = encodeURI($('#yoda').val());
+    var yoda_url = server_url + '?sentence=' + sentence;
 
     $.ajax({
-      // where the data live
       url: yoda_url,
       headers: {'X-Mashape-Key': 'PKKkfvpJJlmsh0DCqZgR7QghqloUp1QSMVwjsnp0wTzfE52ZkO'},
-
-      // what is their type
       dataType: 'html',
       // show the loader before making the request
       beforeSend: function() {
@@ -49,7 +45,7 @@ $(function(){
       }
     }).done(successFunction)
       .fail(failFunction);
-    });
+  });
 
     function successFunction(data) {
     $bio.css('border', '1px solid #e8e8e8');
@@ -67,8 +63,4 @@ $(function(){
     $bio.text('An error occurred during your request: ' +  request.status + ' ' + textStatus + ' ' + errorThrown);
   }
 
-
-
-
-
-});
+})(jQuery);
